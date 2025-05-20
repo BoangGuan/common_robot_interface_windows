@@ -20,6 +20,40 @@ A GUI-based robot jogger tool is also included with the library.  This tool can 
 
 ## Installation
 
+### Windows Installation Fix (UnicodeDecodeError)
+
+If you encounter the following error when installing the package on Windows:
+
+```
+UnicodeDecodeError: 'gbk' codec can't decode byte 0x93 in position 7911: illegal multibyte sequence
+```
+
+This is due to the Windows system using the GBK encoding by default, while `setup.py` reads files (such as `README.md`) without specifying the encoding, causing a failure when encountering characters not supported by GBK.
+
+**🛠️ Solution**  
+Modify the `setup.py` file to explicitly specify the UTF-8 encoding when reading files.  
+Find the line similar to:
+
+```python
+with open("README.md") as f:
+    long_description = f.read()
+```
+
+Change it to:
+
+```python
+with open("README.md", encoding="utf-8") as f:
+    long_description = f.read()
+```
+
+Then save the file and rerun the install command:
+
+```bash
+pip install -e .
+```
+
+
+
 To install the package on Windows or Linux, clone the repository and run the setup script from the repository root directory:
 
 ```sh
